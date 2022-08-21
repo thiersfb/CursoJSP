@@ -1,0 +1,147 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>CursoJSP</groupId>
+	<artifactId>CursoJSP</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>war</packaging>
+	<name>CursoJSP</name>
+	<description>Novo Curso JSP JDEV Treinamento</description>
+
+
+	<dependencies>
+
+		<!-- Tomcat 9 -->
+		<!--
+		<dependency> 
+			<groupId>javax.servlet</groupId> 
+			<artifactId>javax.servlet-api</artifactId> 
+			<version>4.0.1</version> 
+			<scope>provided</scope> 
+		</dependency> 
+
+		<dependency>
+		    <groupId>org.glassfish.web</groupId>
+		    <artifactId>jakarta.servlet.jsp.jstl</artifactId>
+		    <version>1.2.6</version>
+		</dependency>
+		-->
+		
+		
+		<!-- Tomcat 10 -->
+		<dependency>
+		    <groupId>jakarta.platform</groupId>
+		    <artifactId>jakarta.jakartaee-api</artifactId>
+		    <version>9.1.0</version>
+		    <scope>provided</scope>
+		</dependency>
+	
+		<!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
+		<dependency>
+		    <groupId>javax.servlet</groupId>
+		    <artifactId>javax.servlet-api</artifactId>
+		    <version>4.0.1</version>
+		    <scope>provided</scope>
+		</dependency>
+
+
+		<!-- MySql -->
+		<!--
+		<dependency>
+		    <groupId>mysql</groupId>
+		    <artifactId>mysql-connector-java</artifactId>
+		    <version>8.0.26</version>
+		</dependency>
+		-->
+		
+		
+		<dependency>
+		    <groupId>com.microsoft.sqlserver</groupId>
+		    <artifactId>mssql-jdbc</artifactId>
+		    <version>9.4.0.jre16</version>
+		</dependency>
+		
+		
+		
+		<!-- SQL Server 2019 -->
+		<!-- https://mvnrepository.com/artifact/com.microsoft.sqlserver/mssql-jdbc -->
+		<!--<dependency>
+		    <groupId>com.microsoft.sqlserver</groupId>
+		    <artifactId>mssql-jdbc</artifactId>
+		    <version>11.2.0.jre18</version>
+		</dependency>
+		-->
+		
+		<!-- https://mvnrepository.com/artifact/com.microsoft.sqlserver/sqljdbc4 -->
+		<!--<dependency>
+		    <groupId>com.microsoft.sqlserver</groupId>
+		    <artifactId>sqljdbc4</artifactId>
+		    <version>4.0</version>
+		</dependency>
+		-->
+				 
+
+		
+		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
+		<dependency>
+		    <groupId>com.fasterxml.jackson.core</groupId>
+		    <artifactId>jackson-databind</artifactId>
+		    <version>2.13.2.2</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core -->
+		<dependency>
+		    <groupId>com.fasterxml.jackson.core</groupId>
+		    <artifactId>jackson-core</artifactId>
+		    <version>2.13.2</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-annotations -->
+		<dependency>
+		    <groupId>com.fasterxml.jackson.core</groupId>
+		    <artifactId>jackson-annotations</artifactId>
+		    <version>2.13.2</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/net.sf.jasperreports/jasperreports -->
+		<dependency>
+		    <groupId>net.sf.jasperreports</groupId>
+		    <artifactId>jasperreports</artifactId>
+		    <version>6.20.0</version>
+		</dependency>
+		
+		<!--
+		<dependency>
+		    <groupId>org.apache.poi</groupId>
+		    <artifactId>poi-ooxml</artifactId>
+		    <version>3.17</version>
+		</dependency>
+		-->
+		
+		<!-- https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml -->
+		<dependency>
+		    <groupId>org.apache.poi</groupId>
+		    <artifactId>poi-ooxml</artifactId>
+		    <version>5.2.2</version>
+		</dependency>
+
+
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.8.1</version>
+				<configuration>
+					<release>18</release>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>3.2.3</version>
+			</plugin>
+		</plugins>
+	</build>
+</project>
