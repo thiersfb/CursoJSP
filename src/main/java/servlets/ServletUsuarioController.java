@@ -14,6 +14,8 @@ import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import beandto.BeanDtoGraficoSalarioUser;
+
 /* Tomcat 9 */
 /*
 import javax.servlet.RequestDispatcher;
@@ -113,7 +115,7 @@ public class ServletUsuarioController extends ServletGenericUtil {
 				//List<ModelLogin> modelLogins = daoUsuarioRepository.consultaListaUsuario(super.getUserLogado(request));
 				request.setAttribute("modelLogins", modelLogins); 	// mant�m os dados na tela
 				
-				request.setAttribute("msg", "Usu�rio em edi��o");
+				request.setAttribute("msg", "Usuário em edição");
 				request.setAttribute("modelLogin", modelLogin); 	// mant�m os dados na tela
 				//request.setAttribute("totalPagina", daoUsuarioRepository.totalPagina(super.getUserLogado(request)));
 				request.setAttribute("totalPagina", daoUsuarioRepository.totalPagina());
@@ -192,7 +194,32 @@ public class ServletUsuarioController extends ServletGenericUtil {
 				
 				response.setHeader("Content-Disposition", "attachment;filename=relatorio_usuario." + extensao);
 				response.getOutputStream().write(relatorio);
+			
+			} else if(acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("graficoSalario")) {
 				
+				String dataInicial = request.getParameter("dataInicial");
+				String dataFinal = request.getParameter("dataFinal");
+				
+				if ((dataInicial == null || dataInicial.isEmpty()) && (dataFinal == null || dataFinal.isEmpty())) {
+					BeanDtoGraficoSalarioUser beanDtoGraficoSalarioUser = daoUsuarioRepository.montarGraficoMediaSalario(/*super.getUserLogado(request)*/);
+
+				    ObjectMapper mapper = new ObjectMapper();
+					 
+					String json = mapper.writeValueAsString(beanDtoGraficoSalarioUser);
+
+					response.getWriter().write(json);
+
+				} else {
+					BeanDtoGraficoSalarioUser beanDtoGraficoSalarioUser = daoUsuarioRepository.montarGraficoMediaSalario(dataInicial, dataFinal);
+
+				    ObjectMapper mapper = new ObjectMapper();
+					 
+					String json = mapper.writeValueAsString(beanDtoGraficoSalarioUser);
+
+					response.getWriter().write(json);
+				}
+				
+			
 				
 			} else {
 
@@ -311,7 +338,7 @@ public class ServletUsuarioController extends ServletGenericUtil {
 					msg = "Novo usu�rio registrado com sucesso !";
 				} else {
 					/*** Atualiza Usu�rio Existente ***/ 
-					msg = "Dados do usu�rio atualizados com sucesso !";
+					msg = "Dados do usuário atualizados com sucesso !";
 				}
 				//modelLogin = daoUsuarioRepository.gravarUsuario(modelLogin);
 				modelLogin = daoUsuarioRepository.gravarUsuario(modelLogin, super.getUserLogado(request));

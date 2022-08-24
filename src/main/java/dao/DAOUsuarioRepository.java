@@ -12,6 +12,7 @@ import java.util.ArrayList;
 //import java.sql.Types;
 import java.util.List;
 
+import beandto.BeanDtoGraficoSalarioUser;
 import connection.SingleConnectionDB;
 import models.ModelLogin;
 import models.ModelTelefone;
@@ -25,7 +26,7 @@ public class DAOUsuarioRepository {
 	public DAOUsuarioRepository() {
 		connection = SingleConnectionDB.getConnection();
 	}
-
+	
 	public ModelLogin gravarUsuario(ModelLogin modelLogin, Long userLogado) throws Exception {
 		
 		if (modelLogin.isNovo()) {
@@ -397,6 +398,73 @@ public class DAOUsuarioRepository {
 			retorno.add(modelLogin);
 	    }
 		return retorno;
+	}
+	
+	
+	public BeanDtoGraficoSalarioUser montarGraficoMediaSalario(/*Long userLogado*/) throws Exception {
+		String sql = "SELECT AVG([RendaMensal]) AS Media_Salarial, Perfil"
+				   + "  FROM [cursojsp].[dbo].[TBUsuarios]"
+				   //+ " WHERE CriadoPor = " + userLogado
+				   + " GROUP BY Perfil";
+
+		PreparedStatement statement = connection.prepareStatement(sql);
+		//statement.setLong(1, userLogado);
+		
+		ResultSet resultado = statement.executeQuery();
+		
+		List<String> perfis = new ArrayList<String>();
+		List<Double> salarios = new ArrayList<Double>();
+		
+		BeanDtoGraficoSalarioUser beanDtoGraficoSalarioUser = new BeanDtoGraficoSalarioUser();
+		
+		while(resultado.next()) {
+			Double media_salarial = resultado.getDouble("Media_Salarial"); // nome do campo na instrução SQL
+			String perfil = resultado.getString("Perfil");
+			
+			perfis.add(perfil);
+			salarios.add(media_salarial);
+		}
+		
+		beanDtoGraficoSalarioUser.setPerfis(perfis);
+		beanDtoGraficoSalarioUser.setSalarios(salarios);
+		
+		return beanDtoGraficoSalarioUser;
+		
+	}
+	
+	public BeanDtoGraficoSalarioUser montarGraficoMediaSalario(String dataInicial, String dataFinal) throws Exception {
+		
+	String sql = "SELECT AVG([RendaMensal]) AS Media_Salarial, Perfil"
+			   + "  FROM [cursojsp].[dbo].[TBUsuarios]"
+			   //+ " WHERE DataNascimento BETWEEN ? AND ? "
+			   + " WHERE DataNascimento BETWEEN '" + dataInicial + "' AND '" + dataFinal + "'"
+			   //"   AND CriadoPor = " + userLogado
+			   + " GROUP BY Perfil";
+
+		PreparedStatement statement = connection.prepareStatement(sql);
+		
+		//statement.setDate(1, Date.valueOf(new SimpleDateFormat("yyyy-mm-dd").format(new SimpleDateFormat("dd/mm/yyyy").parse(dataInicial))));
+		//statement.setDate(2, Date.valueOf(new SimpleDateFormat("yyyy-mm-dd").format(new SimpleDateFormat("dd/mm/yyyy").parse(dataFinal))));
+		
+		ResultSet resultado = statement.executeQuery();
+		
+		List<String> perfis = new ArrayList<String>();
+		List<Double> salarios = new ArrayList<Double>();
+		
+		BeanDtoGraficoSalarioUser beanDtoGraficoSalarioUser = new BeanDtoGraficoSalarioUser();
+		
+		while(resultado.next()) {
+			Double media_salarial = resultado.getDouble("Media_Salarial"); // nome do campo na instrução SQL
+			String perfil = resultado.getString("Perfil");
+			
+			perfis.add(perfil);
+			salarios.add(media_salarial);
+		}
+		
+		beanDtoGraficoSalarioUser.setPerfis(perfis);
+		beanDtoGraficoSalarioUser.setSalarios(salarios);
+		
+		return beanDtoGraficoSalarioUser;
 	}
 	
 	//Lista de telefones vinculados ao usu�rio
