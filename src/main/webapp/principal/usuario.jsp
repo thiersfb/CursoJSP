@@ -211,7 +211,40 @@
                                                                 <span class="form-bar"></span>
                                                            	</div>
                                                            	
+                                                           	
+                                                           	<div class="form-group row form-default form-static-label">
+                                                            	<div class="col-sm-3">
+                                                            	<select class="form-control" aria-lable="Default select example" name="perfil">
+                                                                    <option disabled="disabled">Selecione o perfil</option>
+                                                                    <c:forEach items="${listaPerfil}" var="perfil">
+																        <option value="${perfil.id}"   
+																        	<c:if test="${perfil.id == perfilSelecionadoId}">selected=\"selected\"</c:if>
+																	        >${perfil.descricao}
+																        </option> 
+																    </c:forEach>
+                                                                </select>
+                                                                <span class="form-bar"></span>
+                                                                <label class="float-label">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Perfil</label>
+                                                            	</div>
+                                                            </div>
+                                                           	
+                                                           	<%-- 
                                                            	<div class="form-group form-default form-static-label">
+                                                        		<select class="form-control" aria-lable="Default select example" name="perfil">
+                                                                    <option disabled="disabled">Selecione o perfil</option>
+                                                                    <c:forEach items="${listaPerfil}" var="perfil">
+																        <option value="${perfil.id}"   
+																        	<c:if test="${perfil.id == perfilSelecionadoId}">selected=\"selected\"</c:if>
+																	        >${perfil.descricao}
+																        </option> 
+																    </c:forEach>
+                                                                </select>
+                                                                <span class="form-bar"></span>
+                                                                <label class="float-label">Perfil</label>
+                                                            </div>
+                                                             --%>
+                                                           	
+                                                           	 <%-- <div class="form-group form-default form-static-label">
                                                         		<select class="form-control" aria-lable="Default select example" name="perfil">
                                                                     <option disabled="disabled">Selecione o perfil</option>
                                                                     <option value="ADMIN" <%                                                                     
@@ -239,7 +272,7 @@
                                                                 </select>
                                                                 <span class="form-bar"></span>
                                                                 <label class="float-label">Perfil</label>
-                                                            </div>
+                                                            </div>  --%>
                                                            	
                                                            	
                                                             <%-- 

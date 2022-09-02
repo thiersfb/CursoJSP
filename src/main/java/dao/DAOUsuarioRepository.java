@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 //import java.sql.Types;
 import java.util.ArrayList;
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import beandto.BeanDtoGraficoSalarioUser;
+import components.Perfil;
 import connection.SingleConnectionDB;
 import models.ModelLogin;
 import models.ModelTelefone;
@@ -188,6 +190,7 @@ public class DAOUsuarioRepository {
 			modelLogin.setLogin(resultado.getString("login"));
 			modelLogin.setNome(resultado.getString("nome"));
 			modelLogin.setEmail(resultado.getString("email"));
+			//modelLogin.setPerfil(resultado.getString("perfil"));
 			
 			retorno.add(modelLogin);
 	    }
@@ -402,10 +405,11 @@ public class DAOUsuarioRepository {
 	
 	
 	public BeanDtoGraficoSalarioUser montarGraficoMediaSalario(/*Long userLogado*/) throws Exception {
-		String sql = "SELECT AVG([RendaMensal]) AS Media_Salarial, Perfil"
-				   + "  FROM [cursojsp].[dbo].[TBUsuarios]"
+		String sql = "SELECT AVG(u.[RendaMensal]) AS Media_Salarial, p.Descricao AS Perfil"
+				   + "  FROM [cursojsp].[dbo].[TBUsuarios] u"
+				   + " INNER JOIN [cursojsp].[dbo].[TBPerfis] p ON u.Perfil = p.ID "
 				   //+ " WHERE CriadoPor = " + userLogado
-				   + " GROUP BY Perfil";
+				   + " GROUP BY p.Descricao";
 
 		PreparedStatement statement = connection.prepareStatement(sql);
 		//statement.setLong(1, userLogado);
@@ -674,5 +678,27 @@ public class DAOUsuarioRepository {
 			*/
 		}
 	}
+	public List<Perfil> listaPerfil() throws SQLException {
+		List<Perfil> perfilList = new ArrayList<>();
+		
+		String sql = "SELECT ID, Descricao FROM TBPerfis ORDER BY Descricao";
+		 
+		PreparedStatement statement = connection.prepareStatement(sql);
+		//statement.setLong(1, id);
+		 
+		ResultSet resultado = statement.executeQuery();
+		 
+		while (resultado.next()) { // Se encontrar resultado
+			int perfilId = Integer.parseInt(resultado.getString("id"));
+			String perfilDesc = resultado.getString("Descricao");
+			
+			Perfil perfil = new Perfil(perfilId, perfilDesc);
+			
+			perfilList.add(perfil);
+		} 
+		
+		return perfilList;
+	}
+	
 	
 }

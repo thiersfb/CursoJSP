@@ -81,7 +81,8 @@
                           </ul>
                           
                           <!-- if para validar se o html, dentro da condição, será exibido -->
-                          <c:if test="${perfil == 'ADMIN'}">  <!-- "isAdmin" é o atributo definido na ServletLogin, e recuperado no c:set no inicio deste arquivo .jsp -->
+                          <%-- <c:if test="${perfil == 'ADMIN'}"> --%>  <!-- "isAdmin" é o atributo definido na ServletLogin, e recuperado no c:set no inicio deste arquivo .jsp -->
+                          <c:if test="${perfil == '1'}">  <!-- "isAdmin" é o atributo definido na ServletLogin, e recuperado no c:set no inicio deste arquivo .jsp -->
                           <div class="pcoded-navigation-label" data-i18n="nav.category.forms">Cadastros</div>
                           <ul class="pcoded-item pcoded-left-item">
                               <li>

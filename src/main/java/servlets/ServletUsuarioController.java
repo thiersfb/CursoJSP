@@ -15,6 +15,7 @@ import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import beandto.BeanDtoGraficoSalarioUser;
+import components.Perfil;
 
 /* Tomcat 9 */
 /*
@@ -57,12 +58,15 @@ public class ServletUsuarioController extends ServletGenericUtil {
 		try {
 			String acao = request.getParameter("acao");
 			
+			List<Perfil> perfilList = daoUsuarioRepository.listaPerfil();
+            request.setAttribute("listaPerfil", perfilList);
+			
 			if(acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("deletar")) {
 				String idUser = request.getParameter("id");
 				
 				daoUsuarioRepository.excluirUsuario(idUser);
 				
-				request.setAttribute("msg", "Exclu�do com sucesso!");
+				request.setAttribute("msg", "Excluído com sucesso!");
 				//request.setAttribute("totalPagina", daoUsuarioRepository.totalPagina(super.getUserLogado(request)));
 				request.setAttribute("totalPagina", daoUsuarioRepository.totalPagina());
 				request.getRequestDispatcher("principal/usuario.jsp").forward(request, response);
@@ -112,6 +116,8 @@ public class ServletUsuarioController extends ServletGenericUtil {
 				//ModelLogin modelLogin = daoUsuarioRepository.consultaDadosUsuarioPorId(idUser, super.getUserLogado(request));
 				
 				List<ModelLogin> modelLogins = daoUsuarioRepository.consultaListaUsuario();
+				int perfilSelecionadoId = Integer.parseInt(modelLogin.getPerfil());
+				request.setAttribute("perfilSelecionadoId", perfilSelecionadoId);
 				//List<ModelLogin> modelLogins = daoUsuarioRepository.consultaListaUsuario(super.getUserLogado(request));
 				request.setAttribute("modelLogins", modelLogins); 	// mant�m os dados na tela
 				
@@ -128,6 +134,7 @@ public class ServletUsuarioController extends ServletGenericUtil {
 				
 				//request.setAttribute("msg", "Lista de usu�rios");
 				request.setAttribute("modelLogins", modelLogins); 	// mant�m os dados na tela
+				
 				//request.setAttribute("totalPagina", daoUsuarioRepository.totalPagina(super.getUserLogado(request)));
 				request.setAttribute("totalPagina", daoUsuarioRepository.totalPagina());
 				request.getRequestDispatcher("principal/usuario.jsp").forward(request, response);
@@ -245,8 +252,14 @@ public class ServletUsuarioController extends ServletGenericUtil {
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+		
 		String msg = "";
 		try {
+			
+
+			List<Perfil> perfilList = daoUsuarioRepository.listaPerfil();
+            request.setAttribute("listaPerfil", perfilList);
+            
 			String id = request.getParameter("id");
 			String login = request.getParameter("login");
 			String senha = request.getParameter("senha");
@@ -331,23 +344,27 @@ public class ServletUsuarioController extends ServletGenericUtil {
 			
 			
 			if (daoUsuarioRepository.validarLoginEmUso(modelLogin.getLogin()) && modelLogin.getId() == null) { //VALIDA SE LOGIN EXISTE NA BASE DE DADOS
-				msg = "Login j� em uso por outro usu�rio !";
+				msg = "Login já em uso por outro usuário !";
 			} else {
 				if(modelLogin.isNovo()) {
 					/*** Registra novo usu�rio ***/ 
-					msg = "Novo usu�rio registrado com sucesso !";
+					msg = "Novo usuário registrado com sucesso !";
 				} else {
-					/*** Atualiza Usu�rio Existente ***/ 
+					/*** Atualiza Usuário Existente ***/ 
 					msg = "Dados do usuário atualizados com sucesso !";
 				}
 				//modelLogin = daoUsuarioRepository.gravarUsuario(modelLogin);
 				modelLogin = daoUsuarioRepository.gravarUsuario(modelLogin, super.getUserLogado(request));
 			}
 			
+			int perfilSelecionadoId = Integer.parseInt(modelLogin.getPerfil());
 			
-			List<ModelLogin> modelLogins = daoUsuarioRepository.consultaListaUsuario();
 			//List<ModelLogin> modelLogins = daoUsuarioRepository.consultaListaUsuario(super.getUserLogado(request));
+			List<ModelLogin> modelLogins = daoUsuarioRepository.consultaListaUsuario();
+
 			request.setAttribute("modelLogins", modelLogins); 	// mant�m os dados na tela
+
+			request.setAttribute("perfilSelecionadoId", perfilSelecionadoId);
 			
 			request.setAttribute("msg", msg);
 			request.setAttribute("modelLogin", modelLogin); 	// mant�m os dados na tela
